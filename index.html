@@ -1,79 +1,47 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
     <div class="search-container">
-      <input type="text" name="weather-search" id="search-bar" 
-       value="Manila"/>
+      <input type="text" name="weather-search" id="search-bar" value="Manila" placeholder="Enter city name..."/>
       <button id="search-btn">Search</button>
+    </div>
+    
+    <div class="loading">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
 
     <main>
-      <div class="image-container">
-        <img  class="weather-icon" src="https://i.pinimg.com/originals/ef/42/6f/ef426f79ae97a250a089fc9866cae55e.gif" alt="" />
+      <div class="weather-header">
+        <div class="image-container">
+          <img class="weather-icon" src="/api/placeholder/80/80" alt="Weather icon" />
+        </div>
+        <div class="primary-info">
+          <h2 class="location">Manila</h2>
+          <h1 class="temperature">--°F</h1>
+          <p class="details">--</p>
+        </div>
       </div>
+
       <div class="weather-details">
-        <p class="details"></p>
-        <p class="temperature"></p>
-        <p class="feels-like"></p>
-        <p class="wind-speed"></p>
-        <p class="wind-gust"></p>
-        <p class="cloud-cover"></p>
+        <p>Feels Like <span class="feels-like">--</span></p>
+        <p>Wind Speed <span class="wind-speed">--</span></p>
+        <p>Wind Gust <span class="wind-gust">--</span></p>
+        <p>Cloud Cover <span class="cloud-cover">--</span></p>
       </div>
+      
       <div class="date"></div>
     </main>
+  </div>
 
-    <!-- api call -->
-    <script>
-
-let button = document.querySelector('#search-btn');
-
-button.addEventListener('click', function(){
-  let query = document.querySelector('#search-bar').value;
-
-  const key = "6a6ddbed41932564fd426074a1d0a2cc";
-      const target_location = "bulacan";
-      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${key}&units=imperial`;
-
-      fetch(apiUrl)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          const temperature = data.main.temp;
-          const description = data.weather[0].description;
-          const location = data.name;
-          const feel_like = data.main.feels_like;
-          const wind_speed = data.wind.speed;
-          const wind_gust = data.wind.gust;
-          const cloud_cover = data.clouds.all;
-          const icon_id = data.weather[0].icon;
-
-          // there must be a much better solution than this
-          let icon = document.querySelector('.weather-icon');
-          icon.src = `https://api.openweathermap.org/img/w/${icon_id}.png`;
-
-          document.querySelector('.details').innerHTML = `Description ${description}`;
-          document.querySelector('.temperature').innerHTML =`Temperature ${temperature}`;
-          document.querySelector('.feels-like').innerHTML = `Feels like : ${feel_like}`;
-          document.querySelector('.wind-speed').innerHTML = `Wind Speed : ${wind_speed}`;
-          document.querySelector('.wind-gust').innerHTML = `Gustiness : ${wind_gust};`;
-          document.querySelector('.cloud-cover').innerHTML = `Cloud cover : ${cloud_cover}%;`
-
-
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-
-})
-    </script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
